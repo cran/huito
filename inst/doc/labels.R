@@ -1,0 +1,65 @@
+## ----setup, include = FALSE---------------------------------------------------
+source("https://raw.githubusercontent.com/Flavjack/inti/master/pkgdown/favicon/docs.r")
+
+## ---- echo = TRUE-------------------------------------------------------------
+library(huito)
+library(gsheet)
+
+url <- paste0("https://docs.google.com/spreadsheets/d/"
+       , "1q0EZmZBt52ca-0VbididjJy2jXTwf06laJpzvkQJWvc/edit#gid=107939497")
+fb <- gsheet2tbl(url)
+# browseURL(url)
+
+# huito_fonts('Ceviche One')
+
+label <- fb %>% 
+  mutate(temp = paste0("Temperatura: ", temperatura)) %>% 
+  mutate(var = paste0("Variedad: ", variedad)) %>% 
+  label_layout(size = c(10, 2.5)
+               , border_color = "blue"
+               ) %>%
+  include_image(
+    value = "https://flavjack.github.io/inti/img/inkaverse.png"
+    , size = c(2.4, 2.4)
+    , position = c(1.2, 1.25)
+    ) %>%
+  include_barcode(
+     value = "barcode"
+     , size = c(2.5, 2.5)
+     , position = c(8.2, 1.25)
+     ) %>%
+  include_text(value = "plots"
+               , position = c(9.7, 1.25)
+               , angle = 90
+               , size = 15
+               , color = "red"
+               ) %>%
+  include_text(value = "Inkaverse"
+               , position = c(4.6, 2)
+               , size = 30
+               , color = "brown"
+               , font = 'Ceviche One'
+               ) %>%
+  include_text(value = "temp"
+               , position = c(4.6, 1.2)
+               , size = 13
+               , color = "orange"
+               ) %>%
+  include_text(value = "var"
+               , position = c(4.6, 0.5)
+               , size = 13
+               , color = "#009966"
+               ) 
+
+## ----echo = TRUE--------------------------------------------------------------
+label %>% 
+  label_print(mode = "sample", smpres = 300, viewer = F)
+
+## ----echo = TRUE--------------------------------------------------------------
+complete <- label %>% 
+  label_print(mode = "complete", filename = "etiquetas")
+
+## -----------------------------------------------------------------------------
+complete %>% 
+  image_read_pdf(density = 200, pages = 1) 
+
