@@ -4,37 +4,38 @@ source("https://raw.githubusercontent.com/Flavjack/inti/master/pkgdown/favicon/d
 ## ----echo = TRUE, eval = T----------------------------------------------------
 library(huito)
 
-huito_fonts()
+huito_fonts(c("Paytone One"))
 
 label <- label_layout(size = c(5.08, 5.08)
                       , border_color = NA
                       , border_width = 0
+                      , background = "#b1d842"
                       ) %>% 
-  include_image(value = "https://flavjack.github.io/huito/img/shipibo.png"
-                , size = c(7, 7)
-                , position = c(2.55, 2.52)
+  include_image(value = "https://germinar.inkaverse.com/img/seed_germination.png"
+                , size = c(5.5, 5.5)
+                , position = c(2.55, 1.3)
+                , opts = 'image_transparent("white")*image_modulate(brightness = 0)'
                 ) %>%
-  include_text(value = "H", size = 45 , position = c(1.15, 2.7), color = "#00a85a") %>%
-  include_text(value = "u", size = 45 , position = c(2.07, 2.7), color = "#f58735") %>%
-  include_text(value = "i", size = 45 , position = c(2.73, 2.7), color = "#4774b8") %>%
-  include_image(value = "https://flavjack.github.io/huito/img/huito_fruit.png"
-                , size = c(1.3, 1.3) 
-                , position = c(4.06, 2.6)
-                ) %>%
-  include_text(value = "t", size = 45 , position = c(3.33, 2.7), color = "#a9518b") %>%
-  include_shape(size = 4.1
+  include_shape(size = 4.2
                 , border_width = 3
-                , border_color = "black"
+                , border_color = NA
                 , margin = -0.8
                 , position = c(2.54, 2.54)
-                , panel_color = "red"
+                , panel_color = "blue"
                 , panel_size = 5.08
                 ) %>%
+  include_text(value = "GerminaR"
+               , font = "Paytone One"
+               , size = 23
+               , position = c(2.54, 3.56)
+               , color = "#a64d79"
+               ) %>%
   include_text(value = "inkaverse.com"
                , size = 6
-               , position = c(3.6, 0.75)
+               , position = c(3.9, 0.96)
                , angle = 30
-               , color = "white") 
+               , color = "white"
+               )
 
 ## ---- echo = TRUE-------------------------------------------------------------
 label %>% 
@@ -42,7 +43,7 @@ label %>%
 
 ## ---- echo = TRUE-------------------------------------------------------------
 sticker <- label %>% 
-  label_print(filename = "huito"
+  label_print(filename = "GerminaR"
               , margin = 0
               , paper = c(5.5, 5.5)
               , viewer = T
@@ -59,9 +60,9 @@ sticker %>%
   image_read_pdf()  %>% 
   image_crop(geometry = "600x600+40") %>%
   image_crop(geometry = "560x600-40") %>%
-  image_transparent('red') %>% 
-  image_write("huito.png")
+  image_transparent('blue') %>% 
+  image_write("GerminaR.png")
 
 ## ----out.width = "35%"--------------------------------------------------------
-include_graphics("huito.png")
+include_graphics("GerminaR.png")
 

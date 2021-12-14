@@ -5,12 +5,14 @@ source("https://raw.githubusercontent.com/Flavjack/inti/master/pkgdown/favicon/d
 library(huito)
 library(gsheet)
 
+#> https://docs.google.com/spreadsheets/d/1q0EZmZBt52ca-0VbididjJy2jXTwf06laJpzvkQJWvc/edit#gid=107939497
+
 url <- paste0("https://docs.google.com/spreadsheets/d/"
        , "1q0EZmZBt52ca-0VbididjJy2jXTwf06laJpzvkQJWvc/edit#gid=107939497")
 fb <- gsheet2tbl(url)
 # browseURL(url)
 
-# huito_fonts('Ceviche One')
+huito_fonts('Ceviche One')
 
 label <- fb %>% 
   mutate(temp = paste0("Temperatura: ", temperatura)) %>% 
@@ -53,7 +55,7 @@ label <- fb %>%
 
 ## ----echo = TRUE--------------------------------------------------------------
 label %>% 
-  label_print(mode = "sample", smpres = 300, viewer = F)
+  label_print(mode = "preview", smpres = 300, viewer = F)
 
 ## ----echo = TRUE--------------------------------------------------------------
 complete <- label %>% 
