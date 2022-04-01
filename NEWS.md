@@ -1,3 +1,12 @@
+# huito 0.1.3
+
+- Update vignettes
+- Not load any font by default (i.e Permanent Marker)
+- `label_layout()` use tibble as default
+- Include a dataset: `fieldbook`
+- Update examples in functions
+- Avoid `tempdir()` when use `label_print()`
+
 # huito 0.1.2
 
 - Fix background argument in `shape_hexagon()` 

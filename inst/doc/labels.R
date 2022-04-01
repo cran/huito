@@ -2,21 +2,29 @@
 source("https://raw.githubusercontent.com/Flavjack/inti/master/pkgdown/favicon/docs.r")
 
 ## ---- echo = TRUE-------------------------------------------------------------
+library(inti)
+
+treats <- data.frame(condition = c("irrigated", "drought")
+                     , genotypes = c("choclito", "salcedo", "pandela", "puno"))
+
+design <- tarpuy_design(data = treats
+                    , nfactors = 2
+                    , type = "rcbd"
+                    , rep = 3
+                    , barcode = "HUITO") 
+
+fb <- design$fieldbook
+
+fb %>% web_table()
+
+## ---- echo = TRUE-------------------------------------------------------------
 library(huito)
-library(gsheet)
 
-#> https://docs.google.com/spreadsheets/d/1q0EZmZBt52ca-0VbididjJy2jXTwf06laJpzvkQJWvc/edit#gid=107939497
+font <- c('Ceviche One', "Permanent Marker")
 
-url <- paste0("https://docs.google.com/spreadsheets/d/"
-       , "1q0EZmZBt52ca-0VbididjJy2jXTwf06laJpzvkQJWvc/edit#gid=107939497")
-fb <- gsheet2tbl(url)
-# browseURL(url)
-
-huito_fonts('Ceviche One')
+huito_fonts(font)
 
 label <- fb %>% 
-  mutate(temp = paste0("Temperatura: ", temperatura)) %>% 
-  mutate(var = paste0("Variedad: ", variedad)) %>% 
   label_layout(size = c(10, 2.5)
                , border_color = "blue"
                ) %>%
@@ -40,28 +48,26 @@ label <- fb %>%
                , position = c(4.6, 2)
                , size = 30
                , color = "brown"
-               , font = 'Ceviche One'
+               , font[1]
                ) %>%
-  include_text(value = "temp"
+  include_text(value = "condition"
                , position = c(4.6, 1.2)
                , size = 13
                , color = "orange"
+               , font[2]
                ) %>%
-  include_text(value = "var"
+  include_text(value = "genotypes"
                , position = c(4.6, 0.5)
                , size = 13
                , color = "#009966"
+               , font[2]
                ) 
 
 ## ----echo = TRUE--------------------------------------------------------------
 label %>% 
-  label_print(mode = "preview", smpres = 300, viewer = F)
+  label_print(mode = "preview")
 
 ## ----echo = TRUE--------------------------------------------------------------
-complete <- label %>% 
-  label_print(mode = "complete", filename = "etiquetas")
-
-## -----------------------------------------------------------------------------
-complete %>% 
-  image_read_pdf(density = 200, pages = 1) 
+label %>% 
+  label_print(mode = "complete", filename = "etiquetas", nlabels = 10)
 

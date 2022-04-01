@@ -14,7 +14,19 @@
 
 <title>GerminaR</title>
 
-<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -24,6 +36,7 @@
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
     </style>
+
 
 
 <style type="text/css">
@@ -125,7 +138,187 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
 
 
 
@@ -144,49 +337,54 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>More information from GerminaR project: <a href="https://germinar.inkaverse.com/" class="uri">https://germinar.inkaverse.com/</a></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(huito)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">huito_fonts</span>(<span class="fu">c</span>(<span class="st">&quot;Paytone One&quot;</span>))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>font <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Paytone One&quot;</span>, <span class="st">&quot;Permanent Marker&quot;</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>label <span class="ot">&lt;-</span> <span class="fu">label_layout</span>(<span class="at">size =</span> <span class="fu">c</span>(<span class="fl">5.08</span>, <span class="fl">5.08</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                      , <span class="at">border_color =</span> <span class="cn">NA</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                      , <span class="at">border_width =</span> <span class="dv">0</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                      , <span class="at">background =</span> <span class="st">&quot;#b1d842&quot;</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                      ) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">include_image</span>(<span class="at">value =</span> <span class="st">&quot;https://germinar.inkaverse.com/img/seed_germination.png&quot;</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                , <span class="at">size =</span> <span class="fu">c</span>(<span class="fl">5.5</span>, <span class="fl">5.5</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                , <span class="at">position =</span> <span class="fu">c</span>(<span class="fl">2.55</span>, <span class="fl">1.3</span>)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                , <span class="at">opts =</span> <span class="st">&#39;image_transparent(&quot;white&quot;)*image_modulate(brightness = 0)&#39;</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                ) <span class="sc">%&gt;%</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">include_shape</span>(<span class="at">size =</span> <span class="fl">4.2</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                , <span class="at">border_width =</span> <span class="dv">3</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                , <span class="at">border_color =</span> <span class="cn">NA</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                , <span class="at">margin =</span> <span class="sc">-</span><span class="fl">0.8</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                , <span class="at">position =</span> <span class="fu">c</span>(<span class="fl">2.54</span>, <span class="fl">2.54</span>)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                , <span class="at">panel_color =</span> <span class="st">&quot;blue&quot;</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>                , <span class="at">panel_size =</span> <span class="fl">5.08</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>                ) <span class="sc">%&gt;%</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">include_text</span>(<span class="at">value =</span> <span class="st">&quot;GerminaR&quot;</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>               , <span class="at">font =</span> <span class="st">&quot;Paytone One&quot;</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>               , <span class="at">size =</span> <span class="dv">23</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>               , <span class="at">position =</span> <span class="fu">c</span>(<span class="fl">2.54</span>, <span class="fl">3.56</span>)</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>               , <span class="at">color =</span> <span class="st">&quot;#a64d79&quot;</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>               ) <span class="sc">%&gt;%</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">include_text</span>(<span class="at">value =</span> <span class="st">&quot;inkaverse.com&quot;</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>               , <span class="at">size =</span> <span class="dv">6</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>               , <span class="at">position =</span> <span class="fu">c</span>(<span class="fl">3.9</span>, <span class="fl">0.96</span>)</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>               , <span class="at">angle =</span> <span class="dv">30</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>               , <span class="at">color =</span> <span class="st">&quot;white&quot;</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>               )</span></code></pre></div>
-<p>You can add more image option via <code>magick</code> R package functions <code>include_image(opts)</code> <a href="https://CRAN.R-project.org/package=magick" class="uri">https://CRAN.R-project.org/package=magick</a>.</p>
-<p>Select at <code>panel_color()</code> different from the colors in your stickers background.</p>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">huito_fonts</span>(font)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>label <span class="ot">&lt;-</span> <span class="fu">label_layout</span>(<span class="at">size =</span> <span class="fu">c</span>(<span class="fl">5.08</span>, <span class="fl">5.08</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                      , <span class="at">border_color =</span> <span class="cn">NA</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                      , <span class="at">border_width =</span> <span class="dv">0</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                      , <span class="at">background =</span> <span class="st">&quot;#b1d842&quot;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                      ) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">include_image</span>(<span class="at">value =</span> <span class="st">&quot;https://germinar.inkaverse.com/img/seed_germination.png&quot;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                , <span class="at">size =</span> <span class="fu">c</span>(<span class="fl">5.5</span>, <span class="fl">5.5</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                , <span class="at">position =</span> <span class="fu">c</span>(<span class="fl">2.55</span>, <span class="fl">1.3</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                , <span class="at">opts =</span> <span class="st">&#39;image_transparent(&quot;white&quot;)*image_modulate(brightness = 0)&#39;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                ) <span class="sc">%&gt;%</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">include_shape</span>(<span class="at">size =</span> <span class="fl">4.2</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                , <span class="at">border_width =</span> <span class="dv">3</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                , <span class="at">border_color =</span> <span class="cn">NA</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                , <span class="at">margin =</span> <span class="sc">-</span><span class="fl">0.8</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>                , <span class="at">position =</span> <span class="fu">c</span>(<span class="fl">2.54</span>, <span class="fl">2.54</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>                , <span class="at">panel_color =</span> <span class="st">&quot;blue&quot;</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                , <span class="at">panel_size =</span> <span class="fl">5.08</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>                ) <span class="sc">%&gt;%</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">include_text</span>(<span class="at">value =</span> <span class="st">&quot;GerminaR&quot;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>               , font[<span class="dv">1</span>]</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>               , <span class="at">size =</span> <span class="dv">23</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>               , <span class="at">position =</span> <span class="fu">c</span>(<span class="fl">2.54</span>, <span class="fl">3.56</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>               , <span class="at">color =</span> <span class="st">&quot;#a64d79&quot;</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>               ) <span class="sc">%&gt;%</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">include_text</span>(<span class="at">value =</span> <span class="st">&quot;inkaverse.com&quot;</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>               , font[<span class="dv">2</span>]</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>               , <span class="at">size =</span> <span class="dv">6</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>               , <span class="at">position =</span> <span class="fu">c</span>(<span class="fl">3.9</span>, <span class="fl">0.96</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>               , <span class="at">angle =</span> <span class="dv">30</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>               , <span class="at">color =</span> <span class="st">&quot;white&quot;</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>               )</span></code></pre></div>
+<p>You can add more image option via <code>magick</code> R package
+functions <code>include_image(opts)</code> <a href="https://CRAN.R-project.org/package=magick" class="uri">https://CRAN.R-project.org/package=magick</a>.</p>
+<p>Select at <code>panel_color()</code> different from the colors in
+your stickers background.</p>
 <div id="preview-mode" class="section level2">
 <h2>Preview mode</h2>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>label <span class="sc">%&gt;%</span> </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">label_print</span>(<span class="at">mode =</span> <span class="st">&quot;preview&quot;</span>, <span class="at">smpres =</span> <span class="dv">300</span>, <span class="at">viewer =</span> F)</span></code></pre></div>
-<p><img src="data:image/png;base64,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" width="98%" style="display: block; margin: auto;" /></p>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">label_print</span>(<span class="at">mode =</span> <span class="st">&quot;preview&quot;</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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KdpLM/Q5Bys/0Ws6ff/r/DMVafdet9LnC/8fbpnNRzwHiwlP3/EmEX1UPFqfbJdkgyvmNbYdgai1U1il0A/u+orH59Cp0nedXFxh33HozFq3S33fjavOnm7byo3LDFYwCbR+BQtok175/rfjW7kR1+kuvxu8vOnbrP3+92LSoZZuWats6/KeubnHSpG8O4+/PqjLS5+XDveJ7qljCn8u7RHmcOuT2XxEYBKQMDC/SdOWTnj4g7DvXnfnsAmCQpg665ohEzUhblav7pibOVev7rS1/JnBmQs/K72ZiCxrbnnjuafCHupvyWw+IjAJSB6Y3+vm+7tllbX0XqIrJb+/uUV3mfbC0CGTfE3c4NK0fIWgPlK1eWDn2ZWOPRpl2n9//d9Tx9rfd+M/Wjq8ZslsPiIwCTAFRkQarWvljltbdJcwAiOiXn07LlzV57fXt9X1SVK3r7DvvOWyVV6f40jV5h+OvUJEU65ZdbaC5emWzOYjDnLENJdTYzJaBt70fzPefoH1gUp/OlZVaUxpW+/oX7+MaYIgVLtPZLTP9YnudftGEtEbzxVY1gxnHYyc4HWwOFC0ebDJaNlmGRzKjQVNlUqlDONRHh1ZHHRN1zbDnN7KU9U/lFV++nnp8N3F/UxGC+pqEewiSoBvFzGIQuFb/eMtCmVTz5eIyGmnCVeGdJwjSNDLZVpVu84pN5ZVriGi2/pt8Lgjsb8js/mIFSye+HyKsdmbHrl1WdPvsdLqwy3enVr3J6fndFnlmhlTXjUZLZGpS34QWPw5UtY1v/dXhX9+tOFfi0qpPs74ybsTTEbLj9uvkGRriQmBxat1K8aajJbSHcag6/82syLsba56+5j/wvHyjiajZdnCh8IfHxARjiLGu4KJf1UofR9sNelT7ET05wcOFH3zc2s26HGr7xhodjm0Eg0w0eEghwQidpCjCV0u/WXRF/eO67vZ623mEEgTtDqL0yH924JbRGbzEYFJIBYCu+AVooKw7vgg0RKJxxIWmc1HBCaBWArM7yqikpBv3I2oxW/I4iOz+YjAJBB7gfklEzV9VgINkTNCYwmZzOYjjiLK2HmiXY3/9osYrEt+EJi89SESiZ6sf+VEIpGoZe8hhvBgF1ECsbqLGKST3uC1205EexjNkNl8RGASiJPA4oPM5iNeaJaAzOYESAjPwQAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAYITAARggMgBECA2CEwAAY/T8qCZtK0iaMpgAAAABJRU5ErkJggg==" width="98%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="complete-mode" class="section level2">
 <h2>Complete mode</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sticker <span class="ot">&lt;-</span> label <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sticker <span class="ot">&lt;-</span> label <span class="sc">%&gt;%</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">label_print</span>(<span class="at">filename =</span> <span class="st">&quot;GerminaR&quot;</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>              , <span class="at">margin =</span> <span class="dv">0</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>              , <span class="at">paper =</span> <span class="fu">c</span>(<span class="fl">5.5</span>, <span class="fl">5.5</span>)</span>
@@ -198,7 +396,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="transparent-logo" class="section level1">
 <h1>Transparent logo</h1>
-<p>Import the image in pdf format and cut the border and make the <code>panel_color</code> transparent.</p>
+<p>Import the image in pdf format and cut the border and make the
+<code>panel_color</code> transparent.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sticker <span class="sc">%&gt;%</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image_read_pdf</span>()  <span class="sc">%&gt;%</span> </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image_crop</span>(<span class="at">geometry =</span> <span class="st">&quot;600x600+40&quot;</span>) <span class="sc">%&gt;%</span></span>

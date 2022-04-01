@@ -1,10 +1,12 @@
 ## ----setup, include = FALSE---------------------------------------------------
 source("https://raw.githubusercontent.com/Flavjack/inti/master/pkgdown/favicon/docs.r")
 
-## ----echo = TRUE, eval = T----------------------------------------------------
+## ----echo = TRUE--------------------------------------------------------------
 library(huito)
 
-huito_fonts(c("Paytone One"))
+font <- c("Paytone One", "Permanent Marker")
+
+huito_fonts(font)
 
 label <- label_layout(size = c(5.08, 5.08)
                       , border_color = NA
@@ -25,12 +27,13 @@ label <- label_layout(size = c(5.08, 5.08)
                 , panel_size = 5.08
                 ) %>%
   include_text(value = "GerminaR"
-               , font = "Paytone One"
+               , font[1]
                , size = 23
                , position = c(2.54, 3.56)
                , color = "#a64d79"
                ) %>%
   include_text(value = "inkaverse.com"
+               , font[2]
                , size = 6
                , position = c(3.9, 0.96)
                , angle = 30
@@ -39,10 +42,10 @@ label <- label_layout(size = c(5.08, 5.08)
 
 ## ---- echo = TRUE-------------------------------------------------------------
 label %>% 
-  label_print(mode = "preview", smpres = 300, viewer = F)
+  label_print(mode = "preview")
 
 ## ---- echo = TRUE-------------------------------------------------------------
-sticker <- label %>% 
+sticker <- label %>%
   label_print(filename = "GerminaR"
               , margin = 0
               , paper = c(5.5, 5.5)
