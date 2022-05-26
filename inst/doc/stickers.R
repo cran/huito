@@ -36,7 +36,9 @@ label <- label_layout(size = c(5.08, 5.08)
                , size = 6
                , position = c(3.6, 0.75)
                , angle = 30
-               , color = "white") 
+               , color = "white"
+               , font
+               ) 
 
 ## ---- echo = TRUE-------------------------------------------------------------
 label %>% 

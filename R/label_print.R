@@ -342,13 +342,13 @@ label_print <- function(label
     
     # -------------------------------------------------------------------------
     
-    grids <- if(nlabels == 1) { 0 } else {
+    grids <- if(nlabels == 1 | pages == 1) { 0 } else {
       
       seq(from = 0, to = nlabels, by = ncol*nrow)
       
     }
     
-    file_output <- file.path(paste0(filename, ".pdf"))
+    file_output <- paste0(filename, ".pdf")
     
     pdf <-1:length(grids) %>%
       purrr::map(function(x) {

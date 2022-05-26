@@ -1,12 +1,12 @@
 Package: huito
 Type: Package
-Version: 0.1.3
+Version: 0.1.4
 Title: Flexible and Reproducible Label Designs
 Description: An open-source R package to deploys flexible and reproducible labels using layers. 
   The 'huito' package is part of the 'inkaverse' project for developing different procedures and
   tools used in plant science and experimental designs. 
   Learn more about the 'inkaverse' project at <https://inkaverse.com/>.
-Date: 2022-04-01
+Date: 2022-05-26
 Authors@R: c(
     person("Flavio", "Lozano-Isla", email = "flavjack@gmail.com", role = c("aut", "cre")
           , comment = c(ORCID = "0000-0002-0714-669X")),
@@ -20,12 +20,12 @@ Suggests: knitr, rmarkdown, bookdown, gsheet, inti
 VignetteBuilder: knitr
 License: GPL-3 | file LICENSE
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 LazyData: true
 NeedsCompilation: no
-Packaged: 2022-04-01 11:10:42 UTC; flavjack
+Packaged: 2022-05-26 23:44:22 UTC; flavjack
 Author: Flavio Lozano-Isla [aut, cre] (<https://orcid.org/0000-0002-0714-669X>),
   Inkaverse [cph]
 Maintainer: Flavio Lozano-Isla <flavjack@gmail.com>
 Repository: CRAN
-Date/Publication: 2022-04-01 11:20:02 UTC
+Date/Publication: 2022-05-27 00:10:03 UTC
