@@ -1,3 +1,12 @@
+# huito 0.2.0
+
+- Update `include_shape()`
+  - real size hexagon in stickers
+- Update vignettes
+- Update `label_print()`
+  - Argument `width = 0` avoid borders
+  - "Dynamic" arguments base in columns
+
 # huito 0.1.4
 
 - Improve code in `label_print()`

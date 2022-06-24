@@ -8,10 +8,10 @@ treats <- data.frame(condition = c("irrigated", "drought")
                      , genotypes = c("choclito", "salcedo", "pandela", "puno"))
 
 design <- tarpuy_design(data = treats
-                    , nfactors = 2
-                    , type = "rcbd"
-                    , rep = 3
-                    , barcode = "HUITO") 
+                        , nfactors = 2
+                        , type = "rcbd"
+                        , rep = 3
+                        , barcode = "HUITO") 
 
 fb <- design$fieldbook
 
@@ -25,6 +25,10 @@ font <- c('Ceviche One', "Permanent Marker")
 huito_fonts(font)
 
 label <- fb %>% 
+  mutate(color = case_when(
+    condition %in% "irrigated" ~ "blue"
+    , condition %in% "drought" ~ "red"
+  )) %>% 
   label_layout(size = c(10, 2.5)
                , border_color = "blue"
                ) %>%
@@ -32,6 +36,7 @@ label <- fb %>%
     value = "https://flavjack.github.io/inti/img/inkaverse.png"
     , size = c(2.4, 2.4)
     , position = c(1.2, 1.25)
+    , opts = "image_scale(200)"
     ) %>%
   include_barcode(
      value = "barcode"
@@ -53,7 +58,7 @@ label <- fb %>%
   include_text(value = "condition"
                , position = c(4.6, 1.2)
                , size = 13
-               , color = "orange"
+               , color = "color" # dynamic column
                , font[2]
                ) %>%
   include_text(value = "genotypes"

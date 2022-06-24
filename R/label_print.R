@@ -2,15 +2,15 @@
 #'
 #' Generate labels based in a data frame
 #'
-#' @param label Data frame to build the labels or n repeated labels
-#' @param mode Label in "sample/preview" or "complete" mode
-#' @param filename Labels file name
-#' @param margin Labels margins. margin(t = 0, r = 0, b = 0, l = 0)
-#' @param paper Paper size. Default A4 (21.0 x 29.7)
-#' @param units Units for the label options
-#' @param viewer Show the sample in the "Plots" or "Viewer" panel
-#' @param smpres Sample resolution
-#' @param nlabels Number of labels to generate
+#' @param label Data frame to build the labels or n repeated labels (table/numeric)
+#' @param mode Label generation (string: "sample/preview", "complete") 
+#' @param filename Labels file name (string: "labels")
+#' @param margin Labels margins. margin(numeric vector: t = 0, r = 0, b = 0, l = 0)
+#' @param paper Paper size. Default A4 (numeric vector: 21.0 x 29.7)
+#' @param units Units for the label options (string: "cm")
+#' @param viewer Visualization of the label (logial: FALSE)
+#' @param smpres Sample resolution if viewer = TRUE (numeric: 200)
+#' @param nlabels Number of labels to generate (numeric: NA)
 #'
 #' @return pdf
 #'
@@ -20,6 +20,7 @@
 #' @importFrom grid grid.raster
 #' @importFrom magick image_read
 #' @importFrom showtext showtext_auto
+#' @importFrom utils head
 #'
 #' @export
 #'
@@ -78,6 +79,20 @@ label_print <- function(label
                         , nlabels = NA
                         ) {
   
+  if (FALSE) {
+    
+    mode = "c"
+    filename = "labels"
+    margin = 0
+    paper = c(21.0, 29.7)
+    units = "cm"
+    viewer = FALSE
+    smpres = 200
+    nlabels = NA
+    
+  }
+  
+  
 # args ------------------------------------------------------------------
   
   mode <- match.arg(mode, c("complete", "sample", "preview"))
@@ -88,6 +103,7 @@ label_print <- function(label
         tibble::enframe()
       
     } 
+
 # -------------------------------------------------------------------------
   
   paper <- if(any(is.null(paper)) || any(is.na(paper)) || any(paper == "")) {
@@ -99,8 +115,7 @@ label_print <- function(label
       unlist() %>% as.numeric()
   } else {paper}
   
-  margin <- if(any(is.null(margin)) || any(is.na(margin)) || 
-               any(margin == "") ) {
+  margin <- if(any(is.null(margin)) || any(is.na(margin)) || any(margin == "") ) {
     rep(0, times = 4)
   } else if(is.character(margin)) {
     margin %>%
@@ -111,7 +126,7 @@ label_print <- function(label
     rep(margin, times = 4)
   } else {margin}
   
-  # -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
   
   fb <- if(mode == "sample" | mode == "preview") {
     
@@ -119,23 +134,69 @@ label_print <- function(label
     
   } else if (mode == "complete") {
     
-    label$data 
+    label$data %>% 
+     { if(!is.na(nlabels)) { head(x = ., nlabels) } else {.} }
     
   } 
   
-  # parameters --------------------------------------------------------------
+# parameters --------------------------------------------------------------
   
   info <- fb %>%
     dplyr::mutate(nlabel = row.names(.)) %>%
     dplyr::mutate(dplyr::across(dplyr::everything(), as.character)) %>%
     tidyr::pivot_longer(!.data$nlabel
-                        , names_to = "value"
-                        , values_to = "info")
+                        , names_to = "row"
+                        , values_to = "info") 
   
-  template <- label$opts %>%
-    dplyr::filter(.data$element %in% "label") %>%
-    dplyr::select(.data$option, .data$value) %>%
+  opts <- label$opts %>% 
+    dplyr::mutate(nlayer = dplyr::case_when(
+      .data$element %in% "label" ~ "0-99"
+      , TRUE ~ as.character(.data$nlayer)
+    )) %>%  
+    tidyr::separate_rows(.data$nlayer, sep = "-") %>% 
+    dplyr::rename(class = .data$element) %>% 
+    dplyr::mutate(type = dplyr::case_when(
+      .data$value %in% info$row ~ "dynamic"
+      , TRUE ~ "static"
+    )) %>%
+    dplyr::mutate(row = dplyr::case_when(
+      .data$option %in% "value" ~ as.character(.data$value)
+      , .data$class %in% "label" ~ "template"
+    )) %>% 
+    tidyr::fill(.data$row)
+  
+# -------------------------------------------------------------------------
+  
+  label_opts <- opts %>% 
+    dplyr::filter(.data$nlayer %in% 0) %>% 
+    dplyr::select(.data$option, .data$value) %>% 
     tibble::deframe()
+  
+  label_dimension <- label_opts$size %>% 
+    strsplit(split = "[*]") %>% 
+    unlist() %>% 
+    as.numeric()
+  
+  nlabels <- nrow(fb)
+  
+# -------------------------------------------------------------------------
+
+  dynamic <- opts %>% 
+    dplyr::filter(.data$type %in% "dynamic") %>% 
+    dplyr::select(!.data$row) %>% 
+    dplyr::rename(row = .data$value) %>% 
+    merge(info, ., by.y = "row") %>% 
+    dplyr::rename(value = .data$info) %>% 
+    dplyr::select(.data$class, .data$nlabel, .data$nlayer, .data$type, .data$option, .data$value) %>% 
+    dplyr::arrange(.data$nlabel, .data$nlayer) %>% 
+    dplyr::mutate(dplyr::across(dplyr::everything(), as.character)) %>% 
+    tibble::tibble()
+  
+  static <- opts %>% 
+    dplyr::filter(.data$type %in% "static") %>% 
+    data.frame(., nlabel = rep(1:nlabels, ea = NROW(.))) %>% 
+    dplyr::select(.data$class, .data$nlabel, .data$nlayer, .data$type, .data$option, .data$value) %>% 
+    dplyr::mutate(dplyr::across(dplyr::everything(), as.character)) 
   
   cols <- c(value = NA_real_
             , angle = NA_real_
@@ -148,105 +209,86 @@ label_print <- function(label
             , opts = NA_real_
             )
   
-  options <- label$opts %>%
-    tidyr::pivot_wider(names_from = .data$option, values_from = .data$value) %>%
-    dplyr::mutate(dplyr::across(dplyr::everything(), as.character)) %>% 
+  dt2label <- dplyr::bind_rows(dynamic, static) %>% 
+    dplyr::select(!.data$type) %>% 
+    dplyr::mutate(dplyr::across(.data$value, ~na_if(., "NA"))) %>% 
+    tidyr::pivot_wider(names_from = .data$option, values_from = .data$value) %>% 
+    dplyr::arrange(.data$nlabel, .data$nlayer) %>% 
     tibble::add_column(!!!cols[!names(cols) %in% names(.)]) %>% 
-    dplyr::na_if("NULL") %>% 
-    dplyr::na_if("NA")
-  
-  # -------------------------------------------------------------------------
-  
-  label_dimension <- template$size %>%
-    strsplit(split = "[*]") %>%
-    unlist() %>%
-    as.numeric()
-  
-  # unite-data --------------------------------------------------------------
-  
-  tolabel <- merge(options, info
-                   , all.x = TRUE
-                   , by = "value"
-  ) %>%
     tidyr::separate(.data$position, c("X", "Y"), remove = F, sep = "[*]", fill = 'right') %>%
     tidyr::separate(.data$size, c("W", "H"), remove = F, sep = "[*]", fill = 'right') %>% 
+    dplyr::mutate(border_width = dplyr::case_when(
+      .data$border_width %in% 0 & .data$class %in% "label" ~ "element_blank()"
+      , .data$border_width > 0 & .data$class %in% "label" ~ paste0("element_rect(fill = NA, colour = , '", .data$border_color ,"'"
+                                                                    , ", size =", .data$border_width, ")")
+      , TRUE ~ as.character(.data$border_width)
+    )) %>% 
+    dplyr::mutate(margin = dplyr::case_when(
+      .data$class %in% "label" ~ paste0("c(", paste0({{margin}}, collapse = ","), ")")
+      , TRUE ~ as.character(.data$margin)
+    ))
+    
+# unite-data --------------------------------------------------------------
+  
+  tolabel <- dt2label %>%
     dplyr::mutate(layer = dplyr::case_when(
-      .data$element %in% "label" ~ paste0("cowplot::ggdraw(xlim = c(", 0,",", W,")", ", ylim = c(", 0, ",", H, "), clip = 'on')")
       
-      , .data$element %in% "text" & .data$type %in% "dynamic" ~ paste0("do.call(cowplot::draw_label"
-                                                                      , ", list(label = '", info, "'"
-                                                                      , ", x = ", X
-                                                                      , ", y = ", Y
-                                                                      , ", size = ", size
-                                                                      , ", angle = ", angle
-                                                                      , ", fontfamily = '", font, "'"
-                                                                      , ", color = '", color, "'"
-                                                                      , ", ", opts
-                                                                      , "))")
+      .data$class %in% "label" & .data$nlayer %in% 0 ~ paste0("cowplot::ggdraw(xlim = c(0,",  .data$W ,")"
+                                                        , ", ylim = c(0,", .data$H, ")"
+                                                        , ", clip = 'on')"
+                                                        )
       
-      , .data$element %in% "text" & .data$type %in% "static" ~ paste0("do.call(cowplot::draw_label"
-                                                                      , ", list(label = '", value, "'"
-                                                                      , ", x = ", X
-                                                                      , ", y = ", Y
-                                                                      , ", size = ", size
-                                                                      , ", angle = ", angle
-                                                                      , ", fontfamily = '", font, "'"
-                                                                      , ", color = '", color, "'"
-                                                                      , ", ", opts
-                                                                      , "))")
+      , .data$class %in% "label" & .data$nlayer %in% 99 ~ paste0("theme(panel.background = element_rect(fill = '" , .data$color, "'"
+                                            , ", colour = NA)"
+                                            , ", panel.border = ", .data$border_width
+                                            , ", plot.margin = unit(", .data$margin, ", '", .data$units, "')"
+                                            , ", complete = TRUE)"
+                                            )
       
-      , .data$element %in% "barcode" & .data$type %in% "dynamic" ~ paste0("cowplot::draw_plot(barcode_qr(",  "'", info , "'", ")"
-                                                                          , ", x =", X, ", y =", Y
-                                                                          , ", width =", W, ", height =", H
-                                                                          , ", halign = 0.5, valign = 0.5"
-                                                                          , ", hjust = 0.5, vjust = 0.5"
-                                                                          , ")")
+      , .data$class %in% "text" ~ paste0("do.call(cowplot::draw_label"
+                                          , ", list(label = '", .data$value, "'"
+                                          , ", x = ", .data$X
+                                          , ", y = ", .data$Y
+                                          , ", size = ", .data$size
+                                          , ", angle = ", .data$angle
+                                          , ", fontfamily = '", .data$font, "'"
+                                          , ", color = '", .data$color, "'"
+                                          , ", ", .data$opts
+                                          , "))")
 
-      , .data$element %in% "barcode" & .data$type %in% "static" ~ paste0("cowplot::draw_plot(barcode_qr(",  "'", value , "'", ")"
-                                                                         , ", x =", X, ", y =", Y
-                                                                         , ", width =", W, ", height =", H
-                                                                         , ", halign = 0.5, valign = 0.5"
-                                                                         , ", hjust = 0.5, vjust = 0.5"
-                                                                         , ")")
+      , .data$class %in% "barcode" ~ paste0("cowplot::draw_plot(barcode_qr(",  "'", .data$value , "'", ")"
+                                           , ", x =", X, ", y =", Y
+                                           , ", width =", W, ", height =", H
+                                           , ", halign = 0.5, valign = 0.5"
+                                           , ", hjust = 0.5, vjust = 0.5"
+                                           , ")")
       
-      , .data$element %in% "image" & .data$type %in% "dynamic" ~ paste0("cowplot::draw_plot("
-                                                                        , "grid::rasterGrob(image_import("
-                                                                        , "'", info, "'"
-                                                                        , ", '", opts, "'"
-                                                                        , ")", ")"
-                                                                        , ", x =", X, ", y =", Y
-                                                                        , ", width =", W, ", height =", H
-                                                                        , ", halign = 0.5, valign = 0.5"
-                                                                        , ", hjust = 0.5, vjust = 0.5"
-                                                                        , ")")
+      , .data$class %in% "image" ~ paste0("cowplot::draw_plot("
+                                           , "grid::rasterGrob(image_import("
+                                           , "'", .data$value, "'"
+                                           , ", '", .data$opts, "'"
+                                           , ")", ")"
+                                           , ", x =", .data$X, ", y =", .data$Y
+                                           , ", width =", .data$W, ", height =", .data$H
+                                           , ", halign = 0.5, valign = 0.5"
+                                           , ", hjust = 0.5, vjust = 0.5"
+                                           , ")")
       
-      , .data$element %in% "image" & .data$type %in% "static" ~ paste0("cowplot::draw_plot("
-                                                                       , "grid::rasterGrob(image_import("
-                                                                       , "'", value, "'"
-                                                                       , ", '", opts, "'"
-                                                                       , ")", ")"
-                                                                       , ", x =", X, ", y =", Y
-                                                                       , ", width =", W, ", height =", H
-                                                                       , ", halign = 0.5, valign = 0.5"
-                                                                       , ", hjust = 0.5, vjust = 0.5"
-                                                                       , ")")
-      
-      , "shape" %in% .data$element & "static" %in% .data$type ~   paste0("cowplot::draw_plot(huito::shape_"
-                                                                         , value
-                                                                         , "(size = ", size
-                                                                         , ", border_width = ", border_width
-                                                                         , ", background = '", color
-                                                                         , "', border_color = '", border_color
-                                                                         , "' , margin = '", margin
-                                                                         , "' , panel_color = '", panel_color
-                                                                         , "' , panel_size = ", panel_size
-                                                                         , ")"
-                                                                         , ", width = ", size
-                                                                         , ", height = ", size
-                                                                         , ", x = ", X, ", y = ", Y
-                                                                         , ", halign = 0.5, valign = 0.5"
-                                                                         , ", hjust = 0.5, vjust = 0.5"
-                                                                         , ")")
+      , .data$class %in% "shape" ~ paste0("cowplot::draw_plot(huito::shape_"
+                                           , .data$value
+                                           , "(size = ", .data$size
+                                           , ", border_width = ", .data$border_width
+                                           , ", background = '", .data$color
+                                           , "', border_color = '", .data$border_color
+                                           , "', panel_color = '", .data$panel_color
+                                           , "', panel_size = ", .data$panel_size
+                                           , ")"
+                                           , ", width = ", .data$size
+                                           , ", height = ", .data$size
+                                           , ", x = ", .data$X, ", y = ", .data$Y
+                                           , ", halign = 0.5, valign = 0.5"
+                                           , ", hjust = 0.5, vjust = 0.5"
+                                           , ")")
       )) %>%
     dplyr::select(.data$nlayer, .data$nlabel, .data$layer) %>%
     dplyr::mutate(dplyr::across(c(.data$nlayer, .data$nlabel), as.numeric)) %>%
@@ -254,19 +296,7 @@ label_print <- function(label
     dplyr::select(!.data$nlayer) %>% 
     replace(is.na(.), 0)
   
-# frame -------------------------------------------------------------------
-  
-  frame <- theme(
-    panel.background = element_rect(fill = template$color, colour = NA)
-    , panel.border = element_rect(fill = NA
-                                  , colour = template$border_color
-                                  , size = template$border_width
-    )
-    , plot.margin = unit(margin, template$units)
-    , complete = TRUE
-  )
-  
-  # -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
   
   showtext::showtext_auto(enable = TRUE)
   
@@ -278,22 +308,20 @@ label_print <- function(label
       tibble::deframe() %>%
       paste0(., collapse = " + ")
     
-    label_print <- eval(parse(text = paste(layers))) + frame 
+    label_print <- eval(parse(text = paste(layers))) 
     
     label_sample <- file.path(
       tempdir()
       , "sample.pdf"
     )
-    
-    # open 
-    
+
     ancho <- (margin[4] + label_dimension[1] + margin[2])
     alto <- (margin[1] + label_dimension[2] + margin[3])
     
     ggplot2::ggsave(
       filename = label_sample
       , plot = label_print
-      , units = template$units
+      , units = label_opts$units
       , width = ancho
       , height = alto
       , limitsize = FALSE
@@ -314,10 +342,8 @@ label_print <- function(label
     
   }
   
-  # -------------------------------------------------------------------------
-  
-  nlabels <- if(is.na(nlabels)) { nrow(fb) } else { nlabels }
-  
+# -------------------------------------------------------------------------
+
   if (mode =="complete") {
     
     label_width <- (margin[4] + label_dimension[1] + margin[2])
@@ -336,17 +362,14 @@ label_print <- function(label
           tibble::deframe() %>%
           paste0(., collapse = " + ")
         
-        eval(parse(text = paste(layers))) + frame
+        eval(parse(text = paste(layers)))
         
       })
     
-    # -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
     
-    grids <- if(nlabels == 1 | pages == 1) { 0 } else {
-      
-      seq(from = 0, to = nlabels, by = ncol*nrow)
-      
-    }
+    grids <- seq(from = 0, to = nlabels, by = ncol*nrow) %>% 
+      utils::head(., pages)
     
     file_output <- paste0(filename, ".pdf")
     
@@ -374,7 +397,7 @@ label_print <- function(label
         cowplot::ggsave2(
           filename = pdf_file
           , plot = labels
-          , units = template$units
+          , units = label_opts$units
           , width = ancho
           , height = alto
           , limitsize = FALSE
