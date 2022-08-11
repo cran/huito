@@ -1,3 +1,11 @@
+# huito 0.2.1
+
+- Change package title
+- logo update
+- Connect to Zenodo
+- Vignettes updates
+- Fix CRAN comments
+
 # huito 0.2.0
 
 - Update `include_shape()`

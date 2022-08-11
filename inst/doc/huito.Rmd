@@ -1,6 +1,7 @@
 ---
 title: "Huito"
 description: 'Labels designs for multiple porpouses'
+# output: rmarkdown::html_vignette
 output:
   bookdown::html_document2:
     base_format: rmarkdown::html_vignette
@@ -14,10 +15,6 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
-params:
-  file: "huito"
-resource_files:
-  - params$file
 ---
 
 ```{r setup, include=FALSE}
@@ -25,13 +22,16 @@ source("https://raw.githubusercontent.com/Flavjack/inti/master/pkgdown/favicon/d
 # open https://docs.google.com/document/d/1U_06RwkOWavq2O9CY5j9GRd3_2Ik8OTrfszK-ccbGmQ/edit
 ```
 
-```{r}
-file <- params$file
-doc <- gdoc2rmd(file = paste0(file, ".zip"), export = file)
+```{r, eval=FALSE}
+doc <- inti::gdoc2qmd(file = "huito.zip", format = "rmd")
 ```
 
-```{r, echo=FALSE, results='asis', eval=T}
+```{r, results = 'asis', eval=FALSE}
 res <- knitr::knit_child(doc, quiet = TRUE)
 cat(res, sep = '\n')
 ```
 
+```{r, results = 'asis'}
+res <- knitr::knit_child("huito/_doc.Rmd", quiet = TRUE)
+cat(res, sep = '\n')
+```
