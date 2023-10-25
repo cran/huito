@@ -2,10 +2,10 @@
 source("https://raw.githubusercontent.com/Flavjack/inti/master/pkgdown/favicon/docs.r")
 # open https://docs.google.com/document/d/1U_06RwkOWavq2O9CY5j9GRd3_2Ik8OTrfszK-ccbGmQ/edit
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  doc <- inti::gdoc2qmd(file = "huito.zip", format = "rmd")
 
-## ---- results = 'asis', eval=FALSE--------------------------------------------
+## ----results = 'asis', eval=FALSE---------------------------------------------
 #  res <- knitr::knit_child(doc, quiet = TRUE)
 #  cat(res, sep = '\n')
 
@@ -19,7 +19,7 @@ knitr::include_graphics('huito/img_0.jpg')
 knitr::include_graphics('huito/img_1.png')
 
 
-## ---- results = 'asis'--------------------------------------------------------
+## ----results = 'asis'---------------------------------------------------------
 res <- knitr::knit_child("huito/_doc.Rmd", quiet = TRUE)
 cat(res, sep = '\n')
 

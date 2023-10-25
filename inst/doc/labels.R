@@ -1,7 +1,7 @@
 ## ----setup, include = FALSE---------------------------------------------------
 source("https://raw.githubusercontent.com/Flavjack/inti/master/pkgdown/favicon/docs.r")
 
-## ---- echo = TRUE-------------------------------------------------------------
+## ----echo = TRUE--------------------------------------------------------------
 library(inti)
 
 treats <- data.frame(condition = c("irrigated", "drought")
@@ -15,7 +15,7 @@ fb <- tarpuy_design(data = treats
 
 fb %>% web_table()
 
-## ---- echo = TRUE-------------------------------------------------------------
+## ----echo = TRUE--------------------------------------------------------------
 library(huito)
 
 font <- c('Ceviche One', "Permanent Marker")
