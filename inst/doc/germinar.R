@@ -16,7 +16,8 @@ label <- label_layout(size = c(5.08, 5.08)
   include_image(value = "https://germinar.inkaverse.com/img/seed_germination.png"
                 , size = c(5.5, 5.5)
                 , position = c(2.55, 1.26)
-                , opts = 'image_transparent("white")*image_modulate(brightness = 0)'
+                , opts = list('image_transparent("white")'
+                              , 'image_modulate(brightness = 0)')
                 ) %>%
   include_shape(size = 5.08
                 , border_width = 0
@@ -24,13 +25,13 @@ label <- label_layout(size = c(5.08, 5.08)
                 , panel_color = "blue"
                 ) %>%
   include_text(value = "GerminaR"
-               , font[1]
+               , font = font[1]
                , size = 23
                , position = c(2.54, 3.55)
                , color = "#a64d79"
                ) %>%
   include_text(value = "inkaverse.com"
-               , font[2]
+               , font = font[2]
                , size = 6
                , position = c(3.9, 0.96)
                , angle = 30

@@ -1,6 +1,7 @@
 ## ----setup, include = FALSE---------------------------------------------------
 source("https://raw.githubusercontent.com/Flavjack/inti/master/pkgdown/favicon/docs.r")
 
+
 ## ----echo = TRUE--------------------------------------------------------------
 library(inti)
 
@@ -8,11 +9,13 @@ treats <- data.frame(condition = c("irrigated", "drought")
                      , genotypes = c("choclito", "salcedo", "pandela", "puno"))
 
 fb <- tarpuy_design(data = treats
-                        , nfactors = 2
-                        , type = "rcbd"
-                        , rep = 3) 
+                    , nfactors = 2
+                    , type = "rcbd"
+                    , rep = 3
+                    ) 
 
 fb %>% web_table()
+
 
 ## ----echo = TRUE--------------------------------------------------------------
 library(huito)
@@ -33,7 +36,7 @@ label <- fb %>%
     value = "https://flavjack.github.io/inti/img/inkaverse.png"
     , size = c(2.4, 2.4)
     , position = c(1.2, 1.25)
-    , opts = "image_scale(200)"
+    , opts = list("image_scale(200)", "image_noise()")
     ) %>%
   include_barcode(
      value = "barcode"
@@ -44,31 +47,39 @@ label <- fb %>%
                , position = c(4.6, 2)
                , size = 25
                , color = "brown"
-               , font[1]
+               , font = font[1]
+               , fontface = "bold"
                ) %>%
   include_text(value = "condition"
-               , position = c(4.6, 1.2)
+               , position = c(2.5, 1.2)
                , size = 18
-               , color = "color" # dynamic column
-               , font[2]
+               , color = "color" 
+               , font = font[2]
+               , opts = list(hjust = 0.0, vjust = 0.0) 
+               , fontface = "bold"
                ) %>%
   include_text(value = "genotypes"
-               , position = c(4.6, 0.5)
-               , size = 12
+               , position = c(2.5, 0.5)
+               , size = 15
                , color = "#009966"
-               , font[3]
+               , font = font[3]
+               , opts = list(hjust = 0.0, vjust = 0.0)
+               , prefix = "Genotipo: "
                ) %>% 
   include_text(value = "plots"
                , position = c(9.7, 1.25)
                , angle = 90
-               , size = 15
+               , size = 12
                , color = "red"
-               , font[1]
+               , font = font[1]
+               , prefix = "Plot: "
                ) 
+
 
 ## ----echo = TRUE--------------------------------------------------------------
 label %>% 
   label_print(mode = "preview")
+
 
 ## ----echo = TRUE--------------------------------------------------------------
 label %>% 
