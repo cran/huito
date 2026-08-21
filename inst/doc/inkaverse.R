@@ -11,44 +11,17 @@ huito_fonts(font)
 
 ## -----------------------------------------------------------------------------
 label <- label_layout(size = c(5.08, 5.08)
+                      , border_color = NA
                       , border_width = 0
+                      , background = "#ffe701"
                       ) %>% 
-  include_image(value = "https://flavjack.github.io/huito/img/shipibo.png"
-                , size = c(7, 7)
-                , position = c(2.55, 2.52)
-                , opts = list("image_scale(600)")
+  include_image(value = "logo_inkaverse.jpg" 
+                , size = c(3.97, 3.97)
+                , position = c(2.55, 2.06)
                 ) %>%
-  include_text(value = "H"
-               , size = 45 
-               , position = c(1.15, 2.7)
-               , color = "#00a85a"
-               , font = font[1]
-               ) %>%
-  include_text(value = "u"
-               , size = 45 
-               , position = c(2.07, 2.7)
-               , color = "#f58735"
-               , font = font[1]
-               ) %>%
-  include_text(value = "i"
-               , size = 45 
-               , position = c(2.73, 2.7)
-               , color = "#4774b8"
-               , font = font[1]
-               ) %>%
-  include_image(value = "https://flavjack.github.io/huito/img/huito_fruit.png"
-                , size = c(1.3, 1.3) 
-                , position = c(4.06, 2.6)
-                ) %>%
-  include_text(value = "t"
-               , size = 45 
-               , position = c(3.33, 2.7)
-               , color = "#a9518b"
-               , font = font[1]
-               ) %>%
   include_shape(size = 5.08
                 , border_width = 3
-                , border_color = "black"
+                , border_color = "#505456"
                 , position = c(2.54, 2.54)
                 , panel_color = "blue"
                 ) %>%
@@ -57,8 +30,8 @@ label <- label_layout(size = c(5.08, 5.08)
                , position = c(3.6, 0.75)
                , angle = 30
                , color = "white"
-               , font = font
-               ) 
+               , font = font[1]
+               )
 
 
 ## -----------------------------------------------------------------------------
@@ -67,8 +40,8 @@ label %>%
 
 
 ## -----------------------------------------------------------------------------
-sticker <- label %>% 
-  label_print(filename = "huito"
+sticker <- label %>%
+  label_print(filename = "INKAVERSE"
               , margin = 0
               , paper = c(5.5, 5.5)
               , mode = "complete"
@@ -78,13 +51,12 @@ sticker <- label %>%
 ## -----------------------------------------------------------------------------
 sticker %>% 
   image_read_pdf()  %>% 
-  image_transparent("blue") %>% 
   image_crop(geometry = "600x600+40") %>%
   image_crop(geometry = "560x600-40") %>%
-  
-  image_write("huito.png")
+  image_transparent('blue') %>% 
+  image_write("INKAVERSE.png")
 
 
 ## ----out.width = "35%"--------------------------------------------------------
-include_graphics("huito.png")
+include_graphics("INKAVERSE.png")
 

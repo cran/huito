@@ -1,11 +1,18 @@
 ---
-title: "Stickers"
-description: 'Hexbin stickers'
-output: rmarkdown::html_vignette
+title: Huito
+description: > 
+  Huito sticker.
 vignette: >
-  %\VignetteIndexEntry{Stickers}
+  %\VignetteIndexEntry{Huito}
   %\VignetteEncoding{UTF-8}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
+knitr:
+  opts_chunk: 
+    collapse: true
+    comment: '#>'
+    echo: true
+    warning: false
+    message: false
 editor_options: 
   chunk_output_type: console
 ---
@@ -14,21 +21,26 @@ editor_options:
 source("https://raw.githubusercontent.com/Flavjack/inti/master/pkgdown/favicon/docs.r")
 ```
 
-Details and examples of more stickers you can find in the following link: <http://hexb.in/>
+Details and examples of more stickers you can find in the following link: <https://github.com/GuangchuangYu/hexSticker>
 
 # Sticker design
 
 You can design your sticker by layers. You can add each element individually in the design.
 
-> You can find more fonts in <https://fonts.google.com/>
+# Package setup
 
-```{r echo = TRUE}
+```{r}
 library(huito)
 
-font <- "Permanent Marker"
-
+font <- c("Permanent Marker")
 huito_fonts(font)
+```
 
+> You can find more fonts in <https://fonts.google.com/>
+
+# Sticker design
+
+```{r}
 label <- label_layout(size = c(5.08, 5.08)
                       , border_width = 0
                       ) %>% 
@@ -84,7 +96,7 @@ label <- label_layout(size = c(5.08, 5.08)
 
 ## Preview mode
 
-```{r, echo = TRUE}
+```{r}
 label %>% 
   label_print(mode = "preview")
 ```
@@ -93,7 +105,7 @@ label %>%
 
 The final file is exported in `pdf` format.
 
-```{r, echo = TRUE}
+```{r}
 sticker <- label %>% 
   label_print(filename = "huito"
               , margin = 0
@@ -108,7 +120,7 @@ sticker <- label %>%
 
 Import the image in pdf and cut the border and make the `panel_color` transparent.
 
-```{r, echo = TRUE}
+```{r}
 sticker %>% 
   image_read_pdf()  %>% 
   image_transparent("blue") %>% 

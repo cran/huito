@@ -1,14 +1,16 @@
-## ----setup, include = FALSE---------------------------------------------------
+## ----setup--------------------------------------------------------------------
+#| include: false
 source("https://raw.githubusercontent.com/Flavjack/inti/master/pkgdown/favicon/docs.r")
-# source("https://inkaverse.com/docs.r")
 
-## ----echo = TRUE--------------------------------------------------------------
+
+## -----------------------------------------------------------------------------
 library(huito)
 
 font <- c("Paytone One", "Permanent Marker")
-
 huito_fonts(font)
 
+
+## -----------------------------------------------------------------------------
 label <- label_layout(size = c(5.08, 5.08)
                       , border_width = 0
                       , background = "#b1d842"
@@ -38,11 +40,13 @@ label <- label_layout(size = c(5.08, 5.08)
                , color = "white"
                )
 
-## ----echo = TRUE--------------------------------------------------------------
+
+## -----------------------------------------------------------------------------
 label %>% 
   label_print(mode = "preview")
 
-## ----echo = TRUE--------------------------------------------------------------
+
+## -----------------------------------------------------------------------------
 sticker <- label %>%
   label_print(filename = "GerminaR"
               , margin = 0
@@ -50,13 +54,15 @@ sticker <- label %>%
               , mode = "complete"
               )
 
-## ----echo = TRUE--------------------------------------------------------------
+
+## -----------------------------------------------------------------------------
 sticker %>% 
   image_read_pdf()  %>% 
   image_crop(geometry = "600x600+40") %>%
   image_crop(geometry = "560x600-40") %>%
   image_transparent('blue') %>% 
   image_write("GerminaR.png")
+
 
 ## ----out.width = "35%"--------------------------------------------------------
 include_graphics("GerminaR.png")

@@ -1,13 +1,46 @@
-## ----setup, include = FALSE---------------------------------------------------
-source("https://raw.githubusercontent.com/Flavjack/inti/master/pkgdown/favicon/docs.r")
+---
+title: Huito
+description: > 
+  Huito sticker.
+vignette: >
+  %\VignetteIndexEntry{Huito}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{quarto::html}
+knitr:
+  opts_chunk: 
+    collapse: true
+    comment: '#>'
+    echo: true
+    warning: false
+    message: false
+editor_options: 
+  chunk_output_type: console
+---
 
-## ----echo = TRUE--------------------------------------------------------------
+```{r setup, include = FALSE}
+source("https://raw.githubusercontent.com/Flavjack/inti/master/pkgdown/favicon/docs.r")
+```
+
+Details and examples of more stickers you can find in the following link: <https://github.com/GuangchuangYu/hexSticker>
+
+# Sticker design
+
+You can design your sticker by layers. You can add each element individually in the design.
+
+# Package setup
+
+```{r}
 library(huito)
 
-font <- "Permanent Marker"
-
+font <- c("Permanent Marker")
 huito_fonts(font)
+```
 
+> You can find more fonts in <https://fonts.google.com/>
+
+# Sticker design
+
+```{r}
 label <- label_layout(size = c(5.08, 5.08)
                       , border_width = 0
                       ) %>% 
@@ -57,20 +90,37 @@ label <- label_layout(size = c(5.08, 5.08)
                , color = "white"
                , font = font
                ) 
+```
 
-## ----echo = TRUE--------------------------------------------------------------
+> Select different panel color for your sticker (i.e. `include_shape(panel_color = "color")`). 
+
+## Preview mode
+
+```{r}
 label %>% 
   label_print(mode = "preview")
+```
 
-## ----echo = TRUE--------------------------------------------------------------
+## Complete mode
+
+The final file is exported in `pdf` format.
+
+```{r}
 sticker <- label %>% 
   label_print(filename = "huito"
               , margin = 0
               , paper = c(5.5, 5.5)
               , mode = "complete"
               )
+```
 
-## ----echo = TRUE--------------------------------------------------------------
+<embed src="huito.pdf" height="500" width="100%" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html">
+
+# Transparent logo
+
+Import the image in pdf and cut the border and make the `panel_color` transparent.
+
+```{r}
 sticker %>% 
   image_read_pdf()  %>% 
   image_transparent("blue") %>% 
@@ -78,7 +128,11 @@ sticker %>%
   image_crop(geometry = "560x600-40") %>%
   
   image_write("huito.png")
+```
 
-## ----out.width = "35%"--------------------------------------------------------
+## Final sticker result
+
+```{r out.width = "35%"}
 include_graphics("huito.png")
+```
 
